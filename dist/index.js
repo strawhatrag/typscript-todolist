@@ -1,7 +1,7 @@
 "use strict";
 const btn = document.getElementById('btn');
-const input = document.getElementById('todoInput'); // type assertion
-const form = document.querySelector('form'); //non null assertion operator  "!"
+const input = document.getElementById('todoInput');
+const form = document.querySelector('form');
 const list = document.getElementById('todolist');
 const todoList = readTodos();
 form.addEventListener('submit', handleSubmit);
@@ -29,6 +29,24 @@ function createTodo(todo) {
     newList.append(checkbox);
     list === null || list === void 0 ? void 0 : list.append(newList);
 }
+function createAllTodos() {
+    list.innerHTML = ''; // Clear the existing list before creating all todos
+    todoList.forEach((todo) => {
+        const newList = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.complete;
+        checkbox.addEventListener('change', () => {
+            todo.complete = checkbox.checked;
+            saveTodos();
+        });
+        newList.append(todo.text);
+        newList.append(checkbox);
+        list === null || list === void 0 ? void 0 : list.append(newList);
+    });
+}
+// Call the function to create the list of all todos initially
+createAllTodos();
 function readTodos() {
     try {
         const todosJSON = localStorage.getItem('todos');

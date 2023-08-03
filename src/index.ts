@@ -1,14 +1,9 @@
 const btn = document.getElementById('btn')! as HTMLInputElement;
-const input = document.getElementById('todoInput')! as HTMLInputElement;   // type assertion
-const form = document.querySelector('form')!; //non null assertion operator  "!"
+const input = document.getElementById('todoInput')! as HTMLInputElement;
+const form = document.querySelector('form')!;
 
-const list = document.getElementById('todolist')
+const list = document.getElementById('todolist')!;
 
-// // "?" null or not
-// btn?.addEventListener('click', () => {
-//   alert(input.value)
-
-// })
 interface Todo {
   text: string;
   complete: boolean;
@@ -45,6 +40,27 @@ function createTodo(todo: Todo) {
   newList.append(checkbox);
   list?.append(newList);
 }
+
+function createAllTodos() {
+  list.innerHTML = ''; // Clear the existing list before creating all todos
+
+  todoList.forEach((todo) => {
+    const newList = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = todo.complete;
+    checkbox.addEventListener('change', () => {
+      todo.complete = checkbox.checked;
+      saveTodos();
+    });
+    newList.append(todo.text);
+    newList.append(checkbox);
+    list?.append(newList);
+  });
+}
+
+// Call the function to create the list of all todos initially
+createAllTodos();
 
 function readTodos(): Todo[] {
   try {
