@@ -10,16 +10,35 @@ const list = document.getElementById('todolist')
 
 // })
 
+interface Todo {
+  text: string,
+  complete: boolean
+}
+
+const todoList: Todo[] = []
+
 form.addEventListener('submit', handleSubmit);
 
 //we use SubmitEvent as the type for the event
 function handleSubmit(event: SubmitEvent) {
   event.preventDefault();
-  const newTodoText = input.value;
+  const newTodo: Todo = {
+    text: input.value,
+    complete: false
+  }
+
+  createTodo(newTodo);
+  todoList.push(newTodo);
+
+}
+
+
+function createTodo(todo: Todo) {
+
   const newList = document.createElement("LI");
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  newList.append(newTodoText);
+  newList.append(todo.text);
   newList.append(checkbox);
   list?.append(newList);
 }
