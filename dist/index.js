@@ -3,7 +3,7 @@ const btn = document.getElementById('btn');
 const input = document.getElementById('todoInput'); // type assertion
 const form = document.querySelector('form'); //non null assertion operator  "!"
 const list = document.getElementById('todolist');
-const todoList = [];
+const todoList = readTodos();
 form.addEventListener('submit', handleSubmit);
 //we use SubmitEvent as the type for the event
 function handleSubmit(event) {
@@ -14,6 +14,8 @@ function handleSubmit(event) {
     };
     createTodo(newTodo);
     todoList.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todoList));
+    input.value = '';
 }
 function createTodo(todo) {
     const newList = document.createElement("LI");
@@ -22,5 +24,11 @@ function createTodo(todo) {
     newList.append(todo.text);
     newList.append(checkbox);
     list === null || list === void 0 ? void 0 : list.append(newList);
+}
+function readTodos() {
+    const todosJSON = localStorage.getItem('todos');
+    if (todosJSON == null)
+        return [];
+    return JSON.parse(todosJSON);
 }
 console.log(input);

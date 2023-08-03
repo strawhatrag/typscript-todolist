@@ -15,7 +15,7 @@ interface Todo {
   complete: boolean
 }
 
-const todoList: Todo[] = []
+const todoList: Todo[] = readTodos();
 
 form.addEventListener('submit', handleSubmit);
 
@@ -30,6 +30,9 @@ function handleSubmit(event: SubmitEvent) {
   createTodo(newTodo);
   todoList.push(newTodo);
 
+  localStorage.setItem("todos", JSON.stringify(todoList));
+  input.value = ''
+
 }
 
 
@@ -41,6 +44,13 @@ function createTodo(todo: Todo) {
   newList.append(todo.text);
   newList.append(checkbox);
   list?.append(newList);
+}
+
+
+function readTodos(): Todo[] {
+  const todosJSON = localStorage.getItem('todos')
+  if (todosJSON == null) return [];
+  return JSON.parse(todosJSON)
 }
 
 console.log(input)
